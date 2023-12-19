@@ -1,38 +1,46 @@
 package build.tool.runner;
 
-import build.tool.runner.diagnostics.ToolDiagnostic;
 import io.ballerina.cli.tool.BuildToolRunner;
 import io.ballerina.projects.ToolContext;
-import io.ballerina.tools.diagnostics.Diagnostic;
+import io.ballerina.tools.diagnostics.DiagnosticFactory;
 import io.ballerina.tools.diagnostics.DiagnosticInfo;
 import io.ballerina.tools.diagnostics.DiagnosticSeverity;
+import io.ballerina.tools.diagnostics.Location;
+import io.ballerina.tools.text.LinePosition;
+import io.ballerina.tools.text.LineRange;
+import io.ballerina.tools.text.TextRange;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SampleToolRunner implements BuildToolRunner {
-    List<Diagnostic> diagnostics = new ArrayList<>();
-
     @Override
-    public void executeTool(ToolContext toolContext) {
-        Path absFilePath = toolContext.packageInstance().project().sourceRoot().resolve(toolContext.filePath());
+    public void execute(ToolContext toolContext) {
+        Path absFilePath = toolContext.currentPackage().project().sourceRoot().resolve(toolContext.filePath());
         if (!absFilePath.toFile().exists()) {
             DiagnosticInfo diagnosticInfo = new DiagnosticInfo("001",
                 "The provided filePath does not exist", DiagnosticSeverity.ERROR);
-            diagnostics.add(new ToolDiagnostic(diagnosticInfo, diagnosticInfo.messageFormat()));
+            toolContext.reportDiagnostic(DiagnosticFactory.createDiagnostic(diagnosticInfo, new NullLocation()));
         }
         System.out.println("Running sample build tool: " + toolContext.toolType());
         System.out.println("Cache created at: " + toolContext.cachePath());
     }
 
     @Override
-    public String getToolName() {
+    public String toolName() {
         return "openapi";
     }
 
-    @Override
-    public List<Diagnostic> diagnostics() {
-        return this.diagnostics;
+    private static class NullLocation implements Location {
+
+        @Override
+        public LineRange lineRange() {
+            LinePosition from = LinePosition.from(0, 0);
+            return LineRange.from("openAPI sample build tool", from, from);
+        }
+
+        @Override
+        public TextRange textRange() {
+            return TextRange.from(0, 0);
+        }
     }
 }
