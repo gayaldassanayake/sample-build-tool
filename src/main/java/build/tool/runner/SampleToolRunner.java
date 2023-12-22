@@ -1,6 +1,6 @@
 package build.tool.runner;
 
-import io.ballerina.cli.tool.BuildToolRunner;
+import io.ballerina.cli.tool.CodeGeneratorTool;
 import io.ballerina.projects.ToolContext;
 import io.ballerina.tools.diagnostics.DiagnosticFactory;
 import io.ballerina.tools.diagnostics.DiagnosticInfo;
@@ -12,7 +12,7 @@ import io.ballerina.tools.text.TextRange;
 
 import java.nio.file.Path;
 
-public class SampleToolRunner implements BuildToolRunner {
+public class SampleToolRunner implements CodeGeneratorTool {
     @Override
     public void execute(ToolContext toolContext) {
         Path absFilePath = toolContext.currentPackage().project().sourceRoot().resolve(toolContext.filePath());
@@ -31,7 +31,6 @@ public class SampleToolRunner implements BuildToolRunner {
     }
 
     private static class NullLocation implements Location {
-
         @Override
         public LineRange lineRange() {
             LinePosition from = LinePosition.from(0, 0);
