@@ -21,8 +21,8 @@ repositories {
     maven {
         url = 'https://maven.pkg.github.com/ballerina-platform/*'
         credentials {
-            username "ShammiL"
-            password "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"
+            username System.getenv("packageUser")
+            password System.getenv("packagePAT")
         }
     }
 }
