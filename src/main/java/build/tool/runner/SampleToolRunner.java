@@ -16,11 +16,22 @@ public class SampleToolRunner implements CodeGeneratorTool {
     @Override
     public void execute(ToolContext toolContext) {
         Path absFilePath = toolContext.currentPackage().project().sourceRoot().resolve(toolContext.filePath());
+        // Report diagnostics
         if (!absFilePath.toFile().exists()) {
             DiagnosticInfo diagnosticInfo = new DiagnosticInfo("001",
                 "The provided filePath does not exist", DiagnosticSeverity.ERROR);
             toolContext.reportDiagnostic(DiagnosticFactory.createDiagnostic(diagnosticInfo, new NullLocation()));
         }
+
+        // Access optional configurations and there locations
+        ToolContext.Option modeOption = toolContext.options().get("mode");
+        if (!modeOption.value().toString().equals("client")) {
+            DiagnosticInfo modeDiagnostic = new DiagnosticInfo("002", "Modes that are not client " +
+                    "are not supported", DiagnosticSeverity.WARNING);
+            toolContext.reportDiagnostic(DiagnosticFactory.createDiagnostic(modeDiagnostic, modeOption.location()));
+        }
+
+        // Access other tool information
         System.out.println("Running sample build tool: " + toolContext.toolId());
         System.out.println("Cache created at: " + toolContext.cachePath());
         System.out.println("Output to: " + toolContext.outputPath());
