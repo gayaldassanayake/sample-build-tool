@@ -12,7 +12,7 @@ import io.ballerina.tools.text.TextRange;
 
 import java.nio.file.Path;
 
-public class SampleToolRunner implements CodeGeneratorTool {
+public class SampleBuildTool implements CodeGeneratorTool {
     @Override
     public void execute(ToolContext toolContext) {
         Path absFilePath = toolContext.currentPackage().project().sourceRoot().resolve(toolContext.filePath());
@@ -28,14 +28,14 @@ public class SampleToolRunner implements CodeGeneratorTool {
 
     @Override
     public String toolName() {
-        return "openapi";
+        return "dummy-tool";
     }
 
     private static class NullLocation implements Location {
         @Override
         public LineRange lineRange() {
             LinePosition from = LinePosition.from(0, 0);
-            return LineRange.from("openAPI sample build tool", from, from);
+            return LineRange.from("Dummy sample build tool", from, from);
         }
 
         @Override
