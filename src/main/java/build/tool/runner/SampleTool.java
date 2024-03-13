@@ -3,7 +3,7 @@ package build.tool.runner;
 import io.ballerina.cli.BLauncherCmd;
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "dummy-tool", description = "A sample tool built for testing bal tool functionality")
+@CommandLine.Command(name = "dummy_tool", description = "A sample tool built for testing bal tool functionality")
 public class SampleTool implements BLauncherCmd {
     @Override
     public void execute() {
@@ -12,7 +12,7 @@ public class SampleTool implements BLauncherCmd {
 
     @Override
     public String getName() {
-        return "dummy-tool";
+        return "dummy_tool";
     }
 
     @Override

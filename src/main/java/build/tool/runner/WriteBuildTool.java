@@ -13,8 +13,8 @@ import io.ballerina.tools.text.TextRange;
 
 import java.nio.file.Path;
 
-@ToolConfig(name = "dummy_tool", subcommands = {ReadBuildTool.class, WriteBuildTool.class})
-public class SampleBuildTool implements CodeGeneratorTool {
+@ToolConfig(name = "write", subcommands = {WriteCapsBuildTool.class})
+public class WriteBuildTool implements CodeGeneratorTool {
     @Override
     public void execute(ToolContext toolContext) {
         Path absFilePath = toolContext.currentPackage().project().sourceRoot().resolve(toolContext.filePath());
@@ -23,7 +23,8 @@ public class SampleBuildTool implements CodeGeneratorTool {
                 "The provided filePath does not exist", DiagnosticSeverity.ERROR);
             toolContext.reportDiagnostic(DiagnosticFactory.createDiagnostic(diagnosticInfo, new NullLocation()));
         }
-        toolContext.println("Running sample build tool: " + toolContext.toolId());
+        toolContext.println("Running write tool: " + toolContext.toolId());
+        toolContext.println(toolContext.options().get("writeValue").value().toString());
     }
 
     private static class NullLocation implements Location {

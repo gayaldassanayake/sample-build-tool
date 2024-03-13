@@ -1,1 +1,4 @@
 build.tool.runner.SampleBuildTool
+build.tool.runner.ReadBuildTool
+build.tool.runner.WriteBuildTool
+build.tool.runner.WriteCapsBuildTool
