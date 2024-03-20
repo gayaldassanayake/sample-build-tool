@@ -1,0 +1,4 @@
+build.tool.runner.SampleToolMainCmd
+build.tool.runner.SubCmdA
+build.tool.runner.SubCmdB
+build.tool.runner.SubCmdC

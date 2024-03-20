@@ -1,6 +1,7 @@
 package build.tool.runner;
 
 import io.ballerina.projects.buildtools.CodeGeneratorTool;
+import io.ballerina.projects.buildtools.ToolConfig;
 import io.ballerina.projects.buildtools.ToolContext;
 import io.ballerina.tools.diagnostics.DiagnosticFactory;
 import io.ballerina.tools.diagnostics.DiagnosticInfo;
@@ -12,7 +13,14 @@ import io.ballerina.tools.text.TextRange;
 
 import java.nio.file.Path;
 
-public class SampleToolRunner implements CodeGeneratorTool {
+/**
+ * Sample tool to demonstrate the usage of the build tool API.
+ */
+// Interface CodeGeneratorTool is used to define a custom build tool command.
+// The annotation "ToolConfig" is used to define the command name and subcommands.
+// If there are no subcommands, "subcommands" can be omitted.
+@ToolConfig(name = "sample_cmd", subcommands = {SubCmdA.class, SubCmdB.class})
+public class SampleToolMainCmd implements CodeGeneratorTool {
     @Override
     public void execute(ToolContext toolContext) {
         Path absFilePath = toolContext.currentPackage().project().sourceRoot().resolve(toolContext.filePath());
@@ -20,6 +28,8 @@ public class SampleToolRunner implements CodeGeneratorTool {
         if (!absFilePath.toFile().exists()) {
             DiagnosticInfo diagnosticInfo = new DiagnosticInfo("001",
                 "The provided filePath does not exist", DiagnosticSeverity.ERROR);
+            // Report the diagnostic. This will be printed to the console after the execution of the tool.
+            // If the diagnostic is an error, it will result in a build failure.
             toolContext.reportDiagnostic(DiagnosticFactory.createDiagnostic(diagnosticInfo, new NullLocation()));
         }
 
@@ -31,15 +41,10 @@ public class SampleToolRunner implements CodeGeneratorTool {
             toolContext.reportDiagnostic(DiagnosticFactory.createDiagnostic(modeDiagnostic, modeOption.location()));
         }
 
-        // Access other tool information
-        System.out.println("Running sample build tool: " + toolContext.toolId());
-        System.out.println("Cache created at: " + toolContext.cachePath());
-        System.out.println("Output to: " + toolContext.outputPath());
-    }
-
-    @Override
-    public String toolName() {
-        return "openapi";
+        // toolContext.println will immediately print a message to the console.
+        toolContext.println("Running sample build tool: " + toolContext.toolId());
+        toolContext.println("Cache created at: " + toolContext.cachePath());
+        toolContext.println("Output to: " + toolContext.outputPath());
     }
 
     private static class NullLocation implements Location {
