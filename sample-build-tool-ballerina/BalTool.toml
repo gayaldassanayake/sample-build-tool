@@ -1,0 +1,5 @@
+[tool]
+id = "sample_cmd"
+
+[[dependency]]
+path = "../sample-build-tool-native/build/libs/sample-build-tool-native-0.2.0.jar"

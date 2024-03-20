@@ -1,0 +1,43 @@
+[package]
+org = "gayaldassanayake"
+name = "build_tool_user"
+version = "0.1.0"
+distribution = "2201.8.5"
+
+[build-options]
+observabilityIncluded = true
+
+# This invokes the main command
+[[tool.sample_cmd]]
+id = "sample_cmd"
+filePath = "sample.json"
+targetModule = "mod_sample"
+options.mode = "client"
+
+# We can add the same tool commmand twice for different module generations
+[[tool.sample_cmd]]
+id = "sample_cmd2"
+filePath = "sample.json"
+targetModule = "mod_sample2"
+options.mode = "client"
+
+# Subcommand 'a'
+[[tool.sample_cmd.sub_cmd_a]]
+id = "a_cmd"
+filePath = "sample.json"
+targetModule = "mod_a"
+options.option = "value"
+
+# Subcommand 'b'
+[[tool.sample_cmd.sub_cmd_b]]
+id = "b_cmd"
+filePath = "sample.json"
+targetModule = "mod_b"
+options.option = "value"
+
+# Subcommand 'c' of subcommand 'a'
+[[tool.sample_cmd.sub_cmd_a.sub_cmd_c]]
+id = "c_cmd"
+filePath = "sample.json"
+targetModule = "mod_c"
+options.option = "value"

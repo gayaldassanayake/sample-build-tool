@@ -1,0 +1,8 @@
+[package]
+org = "gayaldassanayake"
+name = "sample_build_tool_ballerina"
+version = "0.2.0"
+distribution = "2201.8.5"
+
+[build-options]
+observabilityIncluded = true
